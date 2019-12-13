@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Solid
+  - PickerWindow
+  - Background
+  - Root
+  - UIRoot
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Scene GUI
+  - Editor GUI
+  - Player GUI
+  - Physics Special 1
+  - Physics Special 2
+  - Background
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - ScrollCam
+  - 
+  - 
+  - 
+  - 
+  - ScreenshotCam
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 3752501471
+    locked: 0
+  - name: Lines
+    uniqueID: 2399634553
+    locked: 0
+  - name: Foreground
+    uniqueID: 2565139981
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
