@@ -1,0 +1,531 @@
+SDL_Part_1
+
+Q.1
+Qu'est ce que SDL 2 ? (10 pts)
+SDL2 = Simple DirectMedia Layer 2, c’est une bibliothèque open-source sous license « zlib ». Une bibliothèque open-source pour développer des jeux. Ça signifie que l’on peut modifier le code comme on le souhaite et utiliser la bibliothèque commercialement. elle est aussi  une mise a jour majeur de  Simple DirectMedia Layer 
+
+
+Q.2
+Que peut faire la SDL 2 ? (10 pts)
+ les fonction majeur de la SDL2 sont :
+accélération matérielle 3D complète 
+support d'OpenGL 3.0 et supérieur avec de nombreux profils (core, compatibility, debug, robust, etc.) 
+support d'OpenGL ES 
+support de multiples fenêtres 
+support de multiples moniteurs 
+support de multiples périphériques audio 
+support d'Android et iOS 
+bibliothèque de rendus simple 2D pouvant utiliser Direct3D, OpenGL, OpenGL ES ou un rendu logiciel 
+retour de force disponible sur Windows, Mac OS X et Linux 
+support de XInput et XAudio 2 pour Windows 
+opérations atomiques 
+gestion de l'énergie (indique l'autonomie de la batterie, etc.)
+fenêtre aux formes personnalisées 
+audio 32 bits (entier et virgule flottante) 
+bibliothèque simplifiée pour les manettes de jeu (la bibliothèque Joystick est toujours là !) 
+support du toucher (multi-touch, mouvements, etc.) 
+meilleur support du mode plein écran 
+meilleur support du clavier (scancodes VS keycodes, etc.) 
+boîtes de messages 
+support du presse-papier 
+support basique du glisser/déposer 
+support correct des entrées Unicode et IME 
+licence zlib à la place de la LGPL 
+de nombreux ennuis ont disparu depuis la SDL 1.2 
+
+Q.3
+On what platform can we use SDL 2 ? (10 pts)
+On peut utiliser SDL2 sur windows, Mac-OS et systèmes Unix
+
+Q.4
+###Comment obtenir et installer la SDL 2 sur un EDI ? ####Donnez les étapes de la configuration d’un projet SDL2 ####avec CodeBlocks (gcc). (10 points)
+
+Nous devons d’abord nous rendre sur le site officielle de la SDL https://www.libsdl.org/download-2.0.php et directement télécharger l’archive « SDL2-devel-2.0.10-mingw.tar.gz »
+
+extraire le dossier i686-w64-mingw32 sur votre bureau.
+
+Copiez le dossier SDL2 dans i686-w64-mingw32/include/ dossier de projet.
+
+Apres avoir copier le dossier, ouvre codeblocks.
+
+Créer une application Console en c
+
+Cliquer droit sur workspace . Build properties 6.Vérifiez que vous vous trouvez bien dans debug et non dans release (double cliquez sur debug). . Linker settings . Add . Recherchez CodeBlcoks/MinGW/lib/libmingw32.a et cliquez OK . Recherchez i686-w64-mingw32/lib/libSDL2main.a et cliquez OK . Recherchez i686-w64-mungw32/lib/libSDL2.dll.a et cliquez OK . Other Linker Options . Ecrire : . -lmingw32 . -lSDL2main . -lSDL2 6. Aller dans Search Directories . Compiler 6. Add 6. Search for the i686-w64-mingw32/include/ folder and click on OK 6. On Linker 6. Ajouter 6. Recherchez i686-w64-mingw32/lib/ et cliquez OK
+
+Si vous avez bien tout suivi vous faites bon.
+
+#include <SDL2/SDL.h>
+//or
+#include "../SDL2/SDL.h"
+//According to where your SDL.h is
+Q.5
+Quelles sont les différences entre SDL 1 et SDL 2 (5 pts)
+SDL1	SDL2
+3D Hardware Acceleration
+OpenGL API 2-	OpenGL 3.0+ / OpenGL ES Support
+No Android + iOs Support	Android + iOS Support
+Better Fullscreen Support
+LGPL license	zlib license
+8/16 Bits audio	32 Bits audio
+Works on CPU	Works on GPU
+Performance has been improved
+Q.6
+Pour utiliser la SDL2 Vous devez l'initialiser
+Pour utiliser la SDL 2 dans votre projet, vous devez initialiser l’instance SDL 2, quelles sont les étapes d’initialisation à réaliser pour utiliser la lib SDL 2, donnez le code correspondant et expliquez précisément chaque instruction. (15 pts)
+//D'abord nous devons inclure la bibliothèque
+
+#include "SDL2/SDL.h"
+
+int main(int arc, char *argv[]) //Nous devons écrire le main avec ces arguments !
+{
+
+//Nous initialisons la SDL
+
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) 	//SDL_Init initialize SDL Library.
+	{
+		printf("Error initializing SDL : %s", SDL_GetError()); 	//Video events could not be initialized. We display it to the 										//user and display the ERROR Code
+		return EXIT_FAILURE;
+	}
+	
+	SDL_Quit(); //On quitte le programme
+	return 0;
+}
+Q.7
+Comment créer une fenêtre avec SDL 2, donnez et expliquez le code correspondant à la création d’une fenêtre avec SDL 2. (10 points)
+#include "SDL2/SDL.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	// resizable 1280x720 centered window creation
+Q.8
+Management of a SDL 2 Window; Give the SDL 2 Window's primitives. (10 pts)
+SDL2 Window	Functions	GET Functions	SET Functions
+SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint32 flags)	SDL_GetWindowBordersSize	SDL_SetWindowBordered
+int SDL_CreateWindowAndRenderer(int width, int height, Uint32 window_flags, SDL_Window** window, SDL_Renderer** renderer)	SDL_GetWindowBrightness	SDL_SetWindowBrightness
+void SDL_DestroyWindow(SDL_Window* window)	SDL_GetWindowData	SDL_SetWindowData
+SDL_GetWindowDisplayIndex	SDL_SetWindowDisplayMode
+SDL_GetWindowDisplayMode	SDL_SetWindowFullscreen
+SDL_GetWindowFlags	SDL_SetWindowGammaRamp
+SDL_GetWindowFromID	SDL_SetWindowGrab
+SDL_GetWindowGammaRamp	SDL_SetWindowHitTest
+SDL_GetWindowGrab	SDL_SetWindowIcon
+SDL_GetWindowID	SDL_SetWindowInputFocus
+SDL_GetWindowMaximumSize	SDL_SetWindowMaximumSize
+SDL_GetWindowMinimumSize	SDL_SetWindowMinimumSize
+SDL_GetWindowOpacity	SDL_SetWindowModalFor
+SDL_GetWindowPixelFormat	SDL_SetWindowOpacity
+SDL_GetWindowPosition	SDL_SetWindowPosition
+SDL_GetWindowSize	SDL_SetWindowResizable
+SDL_GetWindowSurface	SDL_SetWindowSize
+SDL_GetWindowTitle	SDL_SetWindowTitle
+SDL_GetWindowWMInfo	SDL_SetWindowsMessageHook
+Q.9
+#Gérer un rendu : qu’est-ce qu’un renderer, comment est-il associé à la fenêtre SDL 2 ? Donnez et expliquez le code permettant de gérer un rendu, création, affichage, effacement…. (15 points)
+
+Un rendu est un Render Engine utilisé sur notre fenêtre.
+#include "SDL2/SDL.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //NEW LINE ! => This is how we declare the renderer.
+	
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	//NEW LINE ! => Here, we create a new window using the following parameters:
+	//Title, X position, Y position, Width, Height, Flag.
+	// SDL_WINDOWPOS_CENTERED as X and Y position will make the window appearing at the center of the screen.
+	// 1280 x 720 will be the size of our window.
+	// SDL_WIDNDOW_RESIZABLE will allow the user to resize the window as he wishes.
+	
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//NEW LINE! => We create the Renderer of the Window using 3 parameters :
+	//Window where rendering is displayed
+	//SDL_RENDERER_ACCELERATED to use hardware acceleration
+	
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//To test the renderer, we will want to display something in our window.
+	//First, Select a color by using the following function :
+	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+			//PARAMETERS: renderer, red, green, blue, alpha (0>255)
+	
+	//Then clear the window by using SDL_RenderClear function
+	SDL_RenderClear(renderer);
+	
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+	
+	//We can also create a renderer and a window at the same time this way :
+	/*
+			// PARAMETERS : width, height, flag, &window, &renderer
+	if(SDL_CreateWindowAndRenderer(1280,720, SDL_WINDOW_RESIZABLE,&window,&renderer) < 0)
+	{
+		printf("Error creating renderer and window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	*/
+	
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+	
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+}
+Q.10
+SDL_Point et SDL_Rect : Donnez et expliquez le code de la déclaration d’un SDL_Point et SDL_Rect (5 points)
+SDL_Point :
+
+#include "../SDL2/SDL.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+	//To test the renderer, we will want to display something in our window.
+	//First, Select a color by using the following function :
+	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+			//PARAMETERS: renderer, red, green, blue, alpha (0>255)
+
+    //Here, we are going to create a table that have 10 points.
+    SDL_Point points[500];
+    for(int i = 0; i<499; i++)
+    {
+        points[i].x = i+4;
+        points[i].y = 500;
+        //This for loop will initialize the x and y position of the points in our table named points.
+    }
+
+	//Then clear the window by using SDL_RenderClear function
+	//SDL_RenderClear(renderer); We make this as commentary so it will display a purple line.
+
+    //We can also draw a line using SDL_RenderDrawLine function, this way :
+    //	SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
+    //EX:	SDL_RenderDrawLine(renderer, 100, 100, 300, 300);
+    SDL_RenderDrawPoints(renderer, points, 500); //Initialize and create the points on the screen
+
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+}
+SDL_Rect :
+
+typedef struct{
+	Sint16 x, y;
+	Sint16 w, h;
+}SDL_Rect;
+
+//Creating a rect :
+SDL_Rect rectangle = {0,0,100,100};
+
+//To see how to render a rectangle (empty and filled), please refer to the Q.13
+Q.11
+Les couleurs avec la SDL2 : donnez les instructions permettant de gérer la couleur avec la SDL 2
+SDL_Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+//red, green, blue, alpha values for the color
+Q.12
+Donnez le code permettant d’afficher un fond rouge dans le rendu
+	//Red color
+	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
+	//Then clear the window by using SDL_RenderClear function
+	SDL_RenderClear(renderer);
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+
+Q.13
+Draw in the renderer : (? pts)
+Dessiner dans le rendu : donnez le code des fonctions permettant de dessiner dans le rendu les formes suivantes (cf. PDF screenshot).
+#include "../SDL2/SDL.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //Renderer declaration
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100);
+
+    SDL_Rect rect = {100,100,100,100};
+    SDL_Rect rect2 = {300, 300, 600, 600};
+
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	//Red color
+   	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+   	SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture);
+    SDL_RenderDrawLine(renderer, 0, 0, 250, 25);
+    SDL_SetRenderTarget(renderer, NULL);
+
+    SDL_Rect t_Position;
+    t_Position.x = 100;
+    t_Position.y = 200;
+    SDL_QueryTexture(texture, NULL, NULL, &t_Position.w, &t_Position.h);
+    SDL_RenderCopy(renderer, texture, NULL, &t_Position);
+
+    SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_FillRect(surface, &rect, SDL_MapRGB(surface->format, 255, 0, 0));
+    SDL_RenderFillRect(renderer, &rect2);
+	DrawCircle(renderer, 150, 300, 150);
+    DrawFilledCircle(renderer, 500, 300, 150);
+
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+
+	SDL_Delay(3000); //3s break
+
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+
+	//This will display a red window, wait 3s and close.
+}
+
+// Dessine le cercle donné
+void DrawCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius, SDL_Color color)
+{
+    int new_x = 0;
+    int new_y = 0;
+    int old_x =  origin_x + radius;
+    int old_y = origin_y;
+    float step = (M_PI * 2) / 50;
+
+    SDL_SetRenderDrawColor(p_renderer, color.r, color.g, color.b, 255);
+
+    for(float theta = 0; theta <= (M_PI * 2); theta += step){
+        new_x = origin_x + (radius * cos(theta));
+        new_y = origin_y - (radius * sin(theta));
+
+        SDL_RenderDrawLine(p_renderer, old_x, old_y, new_x, new_y);
+
+        old_x = new_x;
+        old_y = new_y;
+    }
+
+    new_x = origin_x + radius;
+    new_y = origin_y;
+    SDL_RenderDrawLine(p_renderer, old_x, old_y, new_x, new_y);
+
+}
+// Dessine le cercle donné, rempli
+void DrawFilledCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius, SDL_Color color)
+{
+    for(double dy = 1; dy <= radius; dy += 1.0){
+
+        double dx = floor(sqrt((2.0 * radius * dy) - (dy * dy)));
+
+        SDL_SetRenderDrawColor(p_renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderDrawLine(p_renderer, origin_x - dx, origin_y + dy - radius, origin_x + dx, origin_y + dy - radius);
+        SDL_RenderDrawLine(p_renderer, origin_x - dx, origin_y - dy + radius, origin_x + dx, origin_y - dy + radius);
+
+    }
+}
+
+Q.14
+Quelles sont les fonctions permettant de dessiner des points et des lignes ? (5 points)
+Les 3 dernières fonctions précédentes peuvent permettre de dessiner
+
+//Exemple
+SDL_RenderDrawPoint(renderer, 100, 100);
+Q.15
+A quoi servent les fonctions SDL_RenderClear et SDL_RenderPresent
+SDL_RenderClear
+Cette fonction est utilisé pour vider la mémoire du rendu
+SDL_RenderPresent
+Cette fonction est utilisé pour mettre à jour la fenêtre du précédent appel.
+Q.16
+Expliquez SDL_Delay ? (5 pts)
+SDL_Delay met en pause le programme pendant un certain temps en ms.
+
+Q.17
+What is a surface in SDL 2 ? (5 pts)
+Une surface est une structure qui contient des pixels.
+
+Q.18
+Donnez le code permettant de créer une surface. (10 pts)
+SDL_Surface* surface;
+
+surface = SDL_CreateRGBSurface (0, 100, 100, 32, 0, 0, 0, 0);
+
+if(surface == NULL)
+{
+    printf("Error creating a surface : %s", SDL_GetError());
+    return EXIT_FAILURE;
+}
+Q.19
+Dessiner dans une surface : Donnez le code de la fonction SDL_FillRect (10 points)
+int SDL_FillRect(SDL_Surface* dst, const SDL_Rect* rect, Uint32 color);
+Q.20
+SDL_BlitSurface(..) : donnez le code pour tester cette méthode. (5 points)
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //Renderer declaration
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100); //Create basic texture
+
+    SDL_Rect rect = {100,100,100,100}; //Create rect x100 y100 w100 h100
+    SDL_Rect rect2 = {300, 300, 600, 600}; //Create rect x300 y300 w600 h600
+
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE); //Create window
+
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+    
+    //Create two surface: source and destination
+    SDL_Surface* src_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0, 0);
+    SDL_Surface* dst_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0,0);
+	//Red color
+   	//SDL_SetRenderDrawColor(renderer, 255,0,0,255); //Set background to white
+
+   	SDL_FillRect(src_surface, &rect, SDL_MapRGB(src_surface->format, 255, 0, 255)); //Fill a rectangle on a surface
+   	SDL_BlitSurface(src_surface, NULL, dst_surface, NULL);
+    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, dst_surface);
+   	SDL_RenderClear(renderer); //Clear the renderer
+
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_SetRenderTarget(renderer, text_surface);
+	SDL_RenderCopy(renderer, text_surface, NULL, NULL);
+	SDL_RenderPresent(renderer);
+
+	SDL_Delay(3000); //3s break time (ms).
+
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+
+	//This will display a red window, wait 3s and close.
+}
+
+Q.21
+Les textures : Qu’est-ce qu’une texture ? Donnez le code permettant de créer une texture. (10 points)
+Une texture est une structure qui contient des pixels, un rendu, une taille, etc...
+
+SDL_Texture *texture;
+
+texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+Q.22
+Dessinez dans une texture : SDL_RenderTarget, donnez le code pour tester cette méthode. (10 points)
+SDL_SetRenderTarget(renderer, text_surface);
+Q.23
+SDL_RenderCopy : A quoi sert cette méthode, donnez le code pour tester cette méthode (10 pts)
+SDL_RenderCopy C'est une fonction qui copie une partie de texture dans le rendu.
+
+int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect);
+Q.24
+SDL_QueryTexture : A quoi sert cette méthode, donnez le code pour tester cette méthode (10 points)
+SDL_QueryTexture est une fonction qui met en place les attributs d'une texture.
+
+//int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, int* h);
+    SDL_Surface* src_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0, 0);
+    SDL_Surface* dst_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0,0);
+	//Red color
+   	//SDL_SetRenderDrawColor(renderer, 255,0,0,255); //Set background to white
+
+   	SDL_FillRect(src_surface, &rect, SDL_MapRGB(src_surface->format, 255, 0, 255)); //Fill a rectangle on a surface
+   	SDL_BlitSurface(src_surface, NULL, dst_surface, NULL);
+    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, dst_surface);
+   	SDL_RenderClear(renderer); //Clear the renderer
+
+    int format = 0;
+    int access = 0;
+    int width = 0;
+    int height = 0;
+
+    if(SDL_QueryTexture(text_surface, &format, &access, &width, &height) != 0){
+        return EXIT_FAILURE;
+    }else{
+        printf("Texture Width: %d / Texture Height: %d", width, height);
+    }
+Q.25
+Les Images : La SDL2 ne prend en charge nativement que les formats bmp, si vous souhaitez utiliser d’autres formats vous devrez associer la lib SDL2_image à votre projet. SDL_LoadBMP, est la méthode permettant d’utiliser des bmp, donnez le code permettant de tester cette fonction. (10 points)
+const char* img = "LAND2.bmp";
+SDL_Surface* src_surface = SDL_LoadBMP(img);
+Q.26
+Donnez le code permettant de créer une texture à partir d’une image (bmp) (10 points)
+const char* img = "LAND2.bmp";
+SDL_Surface* src_surface = SDL_LoadBMP(img);
+
+if(src_surface == NULL){
+	printf("Image non reconnu");
+}
+SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, src_surface);
